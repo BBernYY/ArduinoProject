@@ -27,6 +27,11 @@
  *
  */
 
+#include <Servo.h>
+
+Servo myservo;  // create servo object to control a servo
+// twelve servo objects can be created on most boards
+
 #include <SPI.h>
 #include <MFRC522.h>
 
@@ -73,7 +78,18 @@ void dump_byte_array(byte *buffer, byte bufferSize) {
 }
 
 
+bool is_open = false;    // variable to store the servo position
 
+void toggle(){
+  if(is_open){
+    myservo.write(0);
+    is_open = false;
+    } else {
+      myservo.write(180);
+      is_open = true;
+    }
+    delay(500);
+}
 
 
 
@@ -81,13 +97,11 @@ void dump_byte_array(byte *buffer, byte bufferSize) {
 
 
 void unlock(){
-  pinMode(5, OUTPUT);
-  digitalWrite(5, HIGH);
+  toggle();
   Serial.println("Unlocked.");
-  delay(1000);
-  digitalWrite(5, LOW);
+  delay(10000);
   Serial.println("Relocked.");
-  delay(1000);
+  delay(10000);
 }
 
 
